@@ -1,32 +1,52 @@
-const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0";
+// const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
 
-console.log(BASE_URL);
+// console.log(BASE_URL);
+let pokemonList;
 
-function onloadFunc() {
-    loadData();
+async function onloadFunc() {
+    await loadData("https://pokeapi.co/api/v2/pokemon?limit=20&offset=0");
+    // console.log(pokemonList);
+    renderPokemonList();
 }
 
-async function loadData() {
-    let response = await fetch(BASE_URL);
+async function loadData(url) {
+    let response = await fetch(url);
     let responseToJson = await response.json();
-    console.log(responseToJson);
+    let results = responseToJson.results;
 
-    nameData(responseToJson.results);
+    // Fetch details for each Pokémon and store in pokemonList
+    pokemonList = [];
+    for (const pokemon of results) {
+        let detailsResponse = await fetch(pokemon.url);
+        let details = await detailsResponse.json();
+        pokemonList.push(details);
+    }
 }
 
-function nameData(pokemonList) {
+function renderPokemonList() {
     let contentElement = document.getElementById('content');
     let html = '';
     
     pokemonList.forEach(pokemon => {
-        html += pokemonTemplate(pokemon.name);
+        html += pokemonTemplate(pokemon);
+        console.log(pokemon);
     });
 
     contentElement.innerHTML = html;
 } 
 
-function pokemonTemplate(pokemonName) {
+function pokemonTemplate(pokemon) {
     return `
-        <h3 style="font-size: 20px;">${pokemonName}</h3>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title"><p>#${pokemon.id}</p> ${pokemon.name}</h5>
+                <img src="${pokemon.sprites.front_default}" class="card-img-top" alt="...">
+                <div>
+                    <img src="..." class="card-img-top" alt="...">
+                    <img src="..." class="card-img-top" alt="...">
+                    <img src="..." class="card-img-top" alt="...">
+                </div>
+            </div>
+        </div>
     `;
 }

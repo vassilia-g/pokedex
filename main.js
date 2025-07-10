@@ -33,51 +33,52 @@ const BASE_URL = "https://remotestorage-2f515-default-rtdb.europe-west1.firebase
 function onloadFunc() {
     console.log("test");
     loadData();
-    postData("/name", "rum");
-    putData("/name", "COLA");
+    console.log("1");
+    // postData("/name", "rum");
+    // putData("/name", "COLA");
 }
 
 async function loadData(path="") {
     let response = await fetch(BASE_URL + path + ".json");
     let responseToJson = await response.json();
     console.log(responseToJson);
-    return responseToJson = await response.json();
+    return responseToJson;
 }
 
-async function postData(path="", data={}) {
-    let response = await fetch(BASE_URL + path + ".json", {
-        method: "POST",
-        header: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
+// async function postData(path="", data={}) {
+//     let response = await fetch(BASE_URL + path + ".json", {
+//         method: "POST",
+//         header: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify(data)
+//     });
 
-    let responseToJson = await response.json();
-    console.log(responseToJson);
-    return responseToJson = await response.json();
-}
+//     let responseToJson = await response.json();
+//     console.log(responseToJson);
+//     return responseToJson = await response.json();
+// }
 
-async function deleteData(path="") {
-        let response = await fetch(BASE_URL + path + ".json", {
-        method: "DELETE",
-    });
+// async function deleteData(path="") {
+//         let response = await fetch(BASE_URL + path + ".json", {
+//         method: "DELETE",
+//     });
 
-    let responseToJson = await response.json();
-    console.log(responseToJson);
-    return responseToJson = await response.json();
-}
+//     let responseToJson = await response.json();
+//     console.log(responseToJson);
+//     return responseToJson = await response.json();
+// }
 
-async function putData(path="",  data={}) {
-        let response = await fetch(BASE_URL + path + ".json", {
-        method: "PUT",
-        header: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
+// async function putData(path="",  data={}) {
+//         let response = await fetch(BASE_URL + path + ".json", {
+//         method: "PUT",
+//         header: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify(data)
+//     });
 
-    let responseToJson = await response.json();
-    console.log(responseToJson);
-    return responseToJson = await response.json();
-}
+//     let responseToJson = await response.json();
+//     console.log(responseToJson);
+//     return responseToJson = await response.json();
+// }
