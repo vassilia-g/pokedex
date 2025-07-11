@@ -41,11 +41,6 @@ function pokemonTemplate(pokemon) {
             <div class="card-body">
                 <h5 class="card-title"><p>#${pokemon.id}</p> ${pokemon.name}</h5>
                 <img src="${pokemon.sprites.front_default}" class="card-img-top" alt="...">
-                <div>
-                    <img src="..." class="card-img-top" alt="...">
-                    <img src="..." class="card-img-top" alt="...">
-                    <img src="..." class="card-img-top" alt="...">
-                </div>
             </div>
         </div>
     `;
