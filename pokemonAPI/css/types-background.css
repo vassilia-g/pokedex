@@ -1,0 +1,71 @@
+.card.bug {
+    background: linear-gradient(to bottom, #9cca30, rgb(255, 255, 255) 100%);
+}
+
+.card.dark {
+    background: linear-gradient(to bottom, #595761, rgb(255, 255, 255) 100%);
+}
+
+.card.dragon {
+    background: linear-gradient(to bottom, #0c6ac8, rgb(255, 255, 255) 100%);
+}
+
+.card.electric {
+    background: linear-gradient(to bottom, #f2d94e, rgb(255, 255, 255) 100%);
+}
+
+.card.fairy {
+    background: linear-gradient(to bottom, #ef90e6, rgb(255, 255, 255) 100%);
+}
+
+.card.fighting {
+    background: linear-gradient(to bottom, #d3425f, rgb(255, 255, 255) 100%);
+}
+
+.card.fire {
+    background: linear-gradient(to bottom, #fba64c, rgb(255, 255, 255) 100%);
+}
+
+.card.flying {
+    background: linear-gradient(to bottom, #a1bbec, rgb(255, 255, 255) 100%);
+}
+
+.card.ghost {
+    background: linear-gradient(to bottom, #5f6dbc, rgb(255, 255, 255) 100%);
+}
+
+.card.grass {
+    background: linear-gradient(to bottom, #60bd58, rgb(255, 255, 255) 100%);
+}
+
+.card.ground {
+    background: linear-gradient(to bottom, #da7c4d, rgb(255, 255, 255) 100%);
+}
+
+.card.ice {
+    background: linear-gradient(to bottom, #76d1c1, rgb(255, 255, 255) 100%);
+}
+
+.card.normal {
+    background: linear-gradient(to bottom, #a0a29f, rgb(255, 255, 255) 100%);
+}
+
+.card.poison {
+    background: linear-gradient(to bottom, #b763cf, rgb(255, 255, 255) 100%);
+}
+
+.card.psychic {
+    background: linear-gradient(to bottom, #fa8582, rgb(255, 255, 255) 100%);
+}
+
+.card.rock {
+    background: linear-gradient(to bottom, #c9bc8a, rgb(255, 255, 255) 100%);
+}
+
+.card.steel {
+    background: linear-gradient(to bottom, #5795a3, rgb(255, 255, 255) 100%);
+}
+
+.card.water {
+    background: linear-gradient(to bottom, #539ddf, rgb(255, 255, 255) 100%);
+}

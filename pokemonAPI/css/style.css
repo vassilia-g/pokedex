@@ -1,0 +1,33 @@
+#content {
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-items: center;
+}
+
+.title {
+    color: white !important;
+    text-align: center;
+    font-size: 17px;
+}
+
+.card {
+    border-radius: 10px !important;
+    transition: all 0.3s ease !important;
+}
+
+.card:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+    transition: all 1.10s ease;
+}
+
+.card-body img {
+    transition: all 0.3s ease !important;
+}
+
+.card-body img:hover {
+    cursor: pointer;
+    transform: scale(1.10);
+    transition: all 0.3s ease;
+}
