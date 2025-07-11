@@ -39,8 +39,8 @@ function pokemonTemplate(pokemon) {
     return `
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title"><p>#${pokemon.id}</p> ${pokemon.name}</h5>
-                <img src="${pokemon.sprites.front_default}" class="card-img-top" alt="...">
+                <h5 class="card-title">#${pokemon.id} ${pokemon.name}</h5>
+                <img src="${pokemon.sprites.other["official-artwork"].front_default}" class="card-img-top" alt="...">
             </div>
         </div>
     `;
