@@ -28,7 +28,7 @@ function renderPokemonList() {
     let html = '';
     
     pokemonList.forEach(pokemon => {
-        html += pokemonTemplate(pokemon);
+        html += mainTemplate(pokemon);
         console.log(pokemon);
     });
 
@@ -37,41 +37,19 @@ function renderPokemonList() {
     activatePopovers()
 } 
 
-function pokemonTemplate(pokemon) {
+function mainTemplate(pokemon) {
     let typesHTML = '';
     let mainType = pokemon.types[0].type.name;
     let modalId = `pokemonModal-${pokemon.id}`;
 
     pokemon.types.forEach(typeInfo => {
-        typesHTML += `<img 
-            class="${typeInfo.type.name}-type" 
-            src="imgs/icons/${typeInfo.type.name}.svg" 
-            data-bs-toggle="popover" 
-            data-bs-trigger="hover" 
-            data-bs-placement="bottom" 
-            data-bs-html="true"
-            data-bs-content="<span class='${typeInfo.type.name}-text'>${typeInfo.type.name}</span>"
-        /> `;
+        typesHTML += pokemonIconTemplate(typeInfo);
     });
 
-    let pokemonsModal = `
-        <div class="modal fade" id="${modalId}" tabindex="-1" aria-labelledby="modalLabel-${pokemon.id}" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="modalLabel-${pokemon.id}">#${pokemon.id} ${pokemon.name}</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body ${mainType}">
-                        <img src="${pokemon.sprites.other["official-artwork"].front_default}" class="img-fluid" alt="${pokemon.name}">
-                        <!-- Hier kannst du weitere Infos anzeigen -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
+    let pokemonsModal = pokemonModalTemplate(pokemon);
+
     return `
-        <div class="card ${mainType}" style="width: 23rem;">
+        <div class="card pockemon-card ${mainType}">
             <div class="card-body">
                 <h5 class="card-title title">#${pokemon.id} ${pokemon.name}</h5>
                 <hr>
@@ -93,9 +71,44 @@ function pokemonTemplate(pokemon) {
     `;
 }
 
+function pokemonIconTemplate(typeInfo) {
+    return `
+        <img 
+            class="${typeInfo.type.name}-type" 
+            src="imgs/icons/${typeInfo.type.name}.svg" 
+            data-bs-toggle="popover" 
+            data-bs-trigger="hover" 
+            data-bs-placement="bottom" 
+            data-bs-html="true"
+            data-bs-content="<span class='${typeInfo.type.name}-text'>${typeInfo.type.name}</span>"
+    /> `;
+}
+
+function pokemonModalTemplate(pokemon) {
+    let mainType = pokemon.types[0].type.name;
+    let modalId = `pokemonModal-${pokemon.id}`;
+
+    return `
+        <div class="modal fade" id="${modalId}" tabindex="-1" aria-labelledby="modalLabel-${pokemon.id}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalLabel-${pokemon.id}">#${pokemon.id} ${pokemon.name}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body ${mainType}">
+                        <img src="${pokemon.sprites.other["official-artwork"].front_default}" class="img-fluid" alt="${pokemon.name}">
+                        <!-- Hier kannst du weitere Infos anzeigen -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
 function activatePopovers() {
-    let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-    let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-      return new bootstrap.Popover(popoverTriggerEl)
-    })
+    let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+    });
 }
