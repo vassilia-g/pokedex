@@ -40,7 +40,8 @@ function renderPokemonList() {
 function pokemonTemplate(pokemon) {
     let typesHTML = '';
     let mainType = pokemon.types[0].type.name;
-    
+    let modalId = `pokemonModal-${pokemon.id}`;
+
     pokemon.types.forEach(typeInfo => {
         typesHTML += `<img 
             class="${typeInfo.type.name}-type" 
@@ -53,18 +54,42 @@ function pokemonTemplate(pokemon) {
         /> `;
     });
 
+    let pokemonsModal = `
+        <div class="modal fade" id="${modalId}" tabindex="-1" aria-labelledby="modalLabel-${pokemon.id}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalLabel-${pokemon.id}">#${pokemon.id} ${pokemon.name}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body ${mainType}">
+                        <img src="${pokemon.sprites.other["official-artwork"].front_default}" class="img-fluid" alt="${pokemon.name}">
+                        <!-- Hier kannst du weitere Infos anzeigen -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
     return `
         <div class="card ${mainType}" style="width: 23rem;">
             <div class="card-body">
                 <h5 class="card-title title">#${pokemon.id} ${pokemon.name}</h5>
                 <hr>
-                <img src="${pokemon.sprites.other["official-artwork"].front_default}" class="card-img-top pokemon-artwork" alt="...">
+                <img 
+                    type="button" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#${modalId}" 
+                    src="${pokemon.sprites.other["official-artwork"].front_default}" 
+                    class="card-img-top pokemon-artwork"
+                    alt="${pokemon.name}"
+                >
                 <hr>
                 <div class="pokemon-types">
                     ${typesHTML.trim()}
                 </div>
             </div>
         </div>
+        ${pokemonsModal}
     `;
 }
 
@@ -74,10 +99,3 @@ function activatePopovers() {
       return new bootstrap.Popover(popoverTriggerEl)
     })
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-    let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-      return new bootstrap.Popover(popoverTriggerEl)
-    })
-  });

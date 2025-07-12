@@ -1,0 +1,71 @@
+.modal-body.bug {
+    background: linear-gradient(to bottom, #9cca30, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.dark {
+    background: linear-gradient(to bottom, #595761, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.dragon {
+    background: linear-gradient(to bottom, #0c6ac8, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.electric {
+    background: linear-gradient(to bottom, #f2d94e, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.fairy {
+    background: linear-gradient(to bottom, #ef90e6, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.fighting {
+    background: linear-gradient(to bottom, #d3425f, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.fire {
+    background: linear-gradient(to bottom, #fba64c, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.flying {
+    background: linear-gradient(to bottom, #a1bbec, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.ghost {
+    background: linear-gradient(to bottom, #5f6dbc, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.grass {
+    background: linear-gradient(to bottom, #60bd58, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.ground {
+    background: linear-gradient(to bottom, #da7c4d, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.ice {
+    background: linear-gradient(to bottom, #76d1c1, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.normal {
+    background: linear-gradient(to bottom, #a0a29f, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.poison {
+    background: linear-gradient(to bottom, #b763cf, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.psychic {
+    background: linear-gradient(to bottom, #fa8582, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.rock {
+    background: linear-gradient(to bottom, #c9bc8a, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.steel {
+    background: linear-gradient(to bottom, #5795a3, rgb(255, 255, 255) 100%);
+}
+
+.modal-body.water {
+    background: linear-gradient(to bottom, #539ddf, rgb(255, 255, 255) 100%);
+}
