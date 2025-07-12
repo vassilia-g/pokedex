@@ -69,3 +69,16 @@
 .modal-body.water {
     background: linear-gradient(to bottom, #539ddf, rgb(255, 255, 255) 100%);
 }
+
+.pokemon-img-fluid {
+    max-width: 50% !important;
+}
+
+.pokemon-tab-content {
+    margin-top: 15px;
+}
+
+.pokemon-modal-img {
+    display: flex;
+    justify-content: center;
+}
