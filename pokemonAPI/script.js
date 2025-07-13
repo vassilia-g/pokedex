@@ -54,7 +54,7 @@ function mainTemplate(pokemon) {
     return `
         <div class="card pockemon-card ${mainType}">
             <div class="card-body">
-                <h5 class="card-title title">#${pokemon.id} ${pokemon.name}</h5>
+                <h5 class="card-title title">#${pokemon.id.toString().padStart(4, '0')} ${pokemon.name}</h5>
                 <hr>
                 <img 
                     type="button" 

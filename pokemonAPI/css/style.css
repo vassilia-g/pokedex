@@ -1,3 +1,23 @@
+body {
+    background-color: rgb(255, 255, 255) !important;
+}
+
+header {
+    background: linear-gradient(to bottom, #55e4f8, rgb(255 132 132) 100%);
+    padding: 10px;
+    margin-bottom: 20px;
+    /* position: sticky !important;
+    top: 0;
+    z-index: 1; */
+}
+
+footer {
+    background: linear-gradient(to bottom, #55e4f8, rgb(255 132 132) 100%);
+    padding: 10px;
+    margin-top: 20px;
+    color: white;
+}
+
 #content {
     display: grid;
     gap: 3rem;
@@ -63,5 +83,6 @@
 .header-section {
     display: flex;
     justify-content: center;
-    gap: 440px;
+    align-items: center;
+    color: white;
 }
