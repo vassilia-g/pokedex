@@ -44,18 +44,24 @@
     padding-bottom: 15px;
     border-radius: 50px;
     width: 205px;
-    transition: width 0.5s ease-in;
+    transition: width 0.2s ease-in;
 }
 
 #loading-button:hover {
     background-color: #ff6b65;
     filter: drop-shadow(0px 2px 5px #ff6b65);
     width: 230px;
-    transition: width 0.5s ease-in;
+    transition: width 0.2s ease-in;
 }
 
 .loading-button {
     margin-top: 50px;
     display: flex;
     justify-content: center;
+}
+
+.header-section {
+    display: flex;
+    justify-content: center;
+    gap: 440px;
 }
