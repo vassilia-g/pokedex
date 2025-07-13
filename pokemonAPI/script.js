@@ -104,12 +104,15 @@ function pokemonModalTemplate(pokemon) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalLabel-${pokemon.id}">#${pokemon.id} ${pokemon.name}</h1>
+                    <h1 class="modal-title fs-5" id="modalLabel-${pokemon.id}">#${pokemon.id.toString().padStart(4, '0')} ${pokemon.name}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body ${mainType}">
                     <div class="pokemon-modal-img">
                         <img src="${pokemon.sprites.other["official-artwork"].front_default}" class="img-fluid pokemon-img-fluid pokemon-artwork" alt="${pokemon.name}">
+                    </div>
+                    <div class="pokemon-types-modal">
+                        ${pokemon.types.map(typeInfo => pokemonIconTemplate(typeInfo)).join('')}
                     </div>
                     <ul class="nav nav-tabs" id="myTab-${pokemon.id}" role="tablist">
                         <li class="nav-item" role="presentation">

@@ -100,3 +100,11 @@
 .col-6-modal {
     width: 30% !important;
 }
+
+.pokemon-types-modal {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
