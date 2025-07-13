@@ -2,20 +2,23 @@
 
 // console.log(BASE_URL);
 let pokemonList;
+let currentOffset = 0;
+const limit = 9;
+
 
 async function onloadFunc() {
     pokemonList = [];
-    await loadData("https://pokeapi.co/api/v2/pokemon?limit=9&offset=0");
-    // console.log(pokemonList);
+    currentOffset = 0;
+    await loadData(currentOffset);
     renderPokemonList();
 }
 
-async function loadData(url) {
+async function loadData(offset) {
+    let url = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
     let response = await fetch(url);
     let responseToJson = await response.json();
     let results = responseToJson.results;
 
-    // Fetch details for each Pokémon and store in pokemonList
     for (const pokemon of results) {
         let detailsResponse = await fetch(pokemon.url);
         let details = await detailsResponse.json();
@@ -98,17 +101,17 @@ function pokemonModalTemplate(pokemon) {
                 </div>
                 <div class="modal-body ${mainType}">
                     <div class="pokemon-modal-img">
-                        <img src="${pokemon.sprites.other["official-artwork"].front_default}" class="img-fluid pokemon-img-fluid" alt="${pokemon.name}">
+                        <img src="${pokemon.sprites.other["official-artwork"].front_default}" class="img-fluid pokemon-img-fluid pokemon-artwork" alt="${pokemon.name}">
                     </div>
                     <ul class="nav nav-tabs" id="myTab-${pokemon.id}" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="home-tab-${pokemon.id}" data-bs-toggle="tab" data-bs-target="#home-tab-pane-${pokemon.id}" type="button" role="tab" aria-controls="home-tab-pane-${pokemon.id}" aria-selected="true">Main</button>
+                            <button class="nav-link active nav-link-button" id="home-tab-${pokemon.id}" data-bs-toggle="tab" data-bs-target="#home-tab-pane-${pokemon.id}" type="button" role="tab" aria-controls="home-tab-pane-${pokemon.id}" aria-selected="true">Main</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab-${pokemon.id}" data-bs-toggle="tab" data-bs-target="#profile-tab-pane-${pokemon.id}" type="button" role="tab" aria-controls="profile-tab-pane-${pokemon.id}" aria-selected="false">Stats</button>
+                            <button class="nav-link nav-link-button" id="profile-tab-${pokemon.id}" data-bs-toggle="tab" data-bs-target="#profile-tab-pane-${pokemon.id}" type="button" role="tab" aria-controls="profile-tab-pane-${pokemon.id}" aria-selected="false">Stats</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="contact-tab-${pokemon.id}" data-bs-toggle="tab" data-bs-target="#contact-tab-pane-${pokemon.id}" type="button" role="tab" aria-controls="contact-tab-pane-${pokemon.id}" aria-selected="false">Evo Chain</button>
+                            <button class="nav-link nav-link-button" id="contact-tab-${pokemon.id}" data-bs-toggle="tab" data-bs-target="#contact-tab-pane-${pokemon.id}" type="button" role="tab" aria-controls="contact-tab-pane-${pokemon.id}" aria-selected="false">Evo Chain</button>
                         </li>
                     </ul>
                     <div class="tab-content pokemon-tab-content" id="myTabContent-${pokemon.id}">
@@ -132,13 +135,14 @@ function pokemonModalTemplate(pokemon) {
 }
 
 function pokemonStatsTemplate(pokemon) {
+    let mainType = pokemon.types[0].type.name;
     return `
         <div class="row">
             <div class="col-6">
                 Base Experience
             </div>
             <div class="col-6">
-                <span class="badge bg-secondary">${pokemon.base_experience}</span>
+                <span class="badge ${mainType}-progress">${pokemon.base_experience}</span>
             </div>
         </div>
         <div class="row">
@@ -146,7 +150,7 @@ function pokemonStatsTemplate(pokemon) {
                 Height
             </div>
             <div class="col-6">
-                <span class="badge bg-secondary">${pokemon.height / 10} m</span>
+                <span class="badge ${mainType}-progress">${pokemon.height / 10} m</span>
             </div>
         </div>
         <div class="row">
@@ -154,7 +158,7 @@ function pokemonStatsTemplate(pokemon) {
                 Weight
             </div>
             <div class="col-6">
-                <span class="badge bg-secondary">${pokemon.weight / 10} kg</span>
+                <span class="badge ${mainType}-progress">${pokemon.weight / 10} kg</span>
             </div>
         </div>
         <div class="row">
@@ -163,7 +167,7 @@ function pokemonStatsTemplate(pokemon) {
             </div>
             <div class="col-6">
                 ${pokemon.abilities.map(ability => `
-                    <span class="badge bg-primary" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-html="true" data-bs-content="<span class='ability-text'>${ability.ability.name}</span>">
+                    <span class="badge ${mainType}-progress" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-html="true" data-bs-content="<span class='ability-text'>${ability.ability.name}</span>">
                         ${ability.ability.name}
                     </span>
                 `).join(' ')}
@@ -176,8 +180,15 @@ function progressBars(pokemon) {
 
     return pokemon.stats.map(stat => `
         <div class="mb-3">
-            <strong>${stat.stat.name}:</strong> ${stat.base_stat}
-            <div class="progress" role="progressbar" aria-label="${stat.stat.name}" aria-valuenow="${stat.base_stat}" aria-valuemin="0" aria-valuemax="200">
+            <div class="row">
+                <div class="col-6 col-6-modal">
+                    ${stat.stat.name}
+                </div>
+                <div class="col-6">
+                    : ${stat.base_stat} xp
+                </div>
+            </div>    
+            <div class="progress progress-bar-modal" role="progressbar" aria-label="${stat.stat.name}" aria-valuenow="${stat.base_stat}" aria-valuemin="0" aria-valuemax="200">
                 <div class="progress-bar ${mainType}-progress" style="width: ${stat.base_stat}%"></div>
             </div>
         </div>
@@ -189,4 +200,10 @@ function activatePopovers() {
     popoverTriggerList.map(function (popoverTriggerEl) {
         return new bootstrap.Popover(popoverTriggerEl)
     });
+}
+
+async function loadingButton() {
+    currentOffset += limit;
+    await loadData(currentOffset);
+    renderPokemonList();
 }

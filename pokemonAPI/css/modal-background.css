@@ -82,3 +82,21 @@
     display: flex;
     justify-content: center;
 }
+
+.progress-bar-modal {
+    height: 0.5rem !important; 
+}
+
+.nav-link-button {
+    border: none !important;
+    color: black !important;
+}
+
+.nav-link-button:hover {
+    border: none !important;
+    color: rgb(109, 109, 109) !important;
+}
+
+.col-6-modal {
+    width: 30% !important;
+}
