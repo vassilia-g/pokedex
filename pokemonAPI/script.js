@@ -1,14 +1,8 @@
-// const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
-
-// console.log(BASE_URL);
-let pokemonList;
+let pokemonList = [];
 let currentOffset = 0;
 const limit = 9;
 
-
 async function onloadFunc() {
-    pokemonList = [];
-    currentOffset = 0;
     await loadData(currentOffset);
     renderPokemonList();
 }
@@ -29,16 +23,30 @@ async function loadData(offset) {
 function renderPokemonList() {
     let contentElement = document.getElementById('content');
     let html = '';
-    
-    pokemonList.forEach(pokemon => {
+
+    let newPokemonList = pokemonList.slice(currentOffset, currentOffset + limit);
+    newPokemonList.forEach(pokemon => {
         html += mainTemplate(pokemon);
-        console.log(pokemon);
     });
 
-    contentElement.innerHTML = html;
-
+    contentElement.innerHTML += html;
     activatePopovers()
-} 
+}
+
+function activatePopovers() {
+    let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+    });
+}
+
+async function loadingButton() {
+    currentOffset += limit;
+    await loadData(currentOffset);
+    renderPokemonList();
+}
+
+// TEMPLATES
 
 function mainTemplate(pokemon) {
     let typesHTML = '';
@@ -120,7 +128,7 @@ function pokemonModalTemplate(pokemon) {
                         </div>
 
                         <div class="container tab-pane fade" id="profile-tab-pane-${pokemon.id}" role="tabpanel" aria-labelledby="profile-tab-${pokemon.id}" tabindex="0">   
-                            ${progressBars(pokemon, mainType)}
+                            ${progressBarsTemplate(pokemon, mainType)}
                         </div>
 
                         <div class="container tab-pane fade" id="contact-tab-pane-${pokemon.id}" role="tabpanel" aria-labelledby="contact-tab-${pokemon.id}" tabindex="0">   
@@ -175,7 +183,8 @@ function pokemonStatsTemplate(pokemon) {
         </div>
     `;
 }
-function progressBars(pokemon) {
+
+function progressBarsTemplate(pokemon) {
     let mainType = pokemon.types[0].type.name;
 
     return pokemon.stats.map(stat => `
@@ -193,17 +202,4 @@ function progressBars(pokemon) {
             </div>
         </div>
     `).join('');
-}
-
-function activatePopovers() {
-    let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-    popoverTriggerList.map(function (popoverTriggerEl) {
-        return new bootstrap.Popover(popoverTriggerEl)
-    });
-}
-
-async function loadingButton() {
-    currentOffset += limit;
-    await loadData(currentOffset);
-    renderPokemonList();
 }
