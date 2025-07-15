@@ -1,0 +1,112 @@
+.bug-progress {
+    background-color: #92bd2d !important;
+    filter: drop-shadow(0px 2px 5px #beee4f);
+}
+
+.dark-progress {
+    background-color: #595761 !important;
+    filter: drop-shadow(0px 2px 5px #25242a);
+}
+
+.dragon-progress {
+    filter: drop-shadow(0px 2px 5px #0c6ac8);
+    background-color: #0c6ac8 !important;
+}
+
+.electric-progress {
+    filter: drop-shadow(0px 2px 5px #f2d94e);
+    background-color: #f2d94e !important;
+}
+
+.fairy-progress {
+    filter: drop-shadow(0px 2px 5px #ef90e6);
+    background-color: #ef90e6 !important;
+}
+
+.fighting-progress {
+    filter: drop-shadow(0px 2px 5px #d3425f);
+    background-color: #d3425f !important;
+}
+
+.fire-progress {
+    filter: drop-shadow(0px 2px 5px #fba64c);
+    background-color: #fba64c !important;
+}
+
+.flying-progress {
+    filter: drop-shadow(0px 2px 5px #a1bbec);
+    background-color: #a1bbec !important;
+}
+
+.ghost-progress {
+    filter: drop-shadow(0px 2px 5px #5f6dbc);
+    background-color: #5f6dbc !important;
+}
+
+.grass-progress {
+    filter: drop-shadow(0px 2px 5px #60bd58);
+    background-color: #60bd58 !important;
+    
+
+}
+
+.ground-progress {
+    filter: drop-shadow(0px 2px 5px #da7c4d);
+    background-color: #da7c4d !important;
+}
+
+.ice-progress {
+    filter: drop-shadow(0px 2px 5px #76d1c1);
+    background-color: #76d1c1 !important;
+}
+
+.normal-progress {
+    filter: drop-shadow(0px 2px 5px #a0a29f);
+    background-color: #a0a29f !important;
+}
+
+.poison-progress {
+    filter: drop-shadow(0px 2px 5px #b763cf);
+    background-color: #b763cf !important;
+}
+
+.psychic-progress {
+    background-color: #fa8582 !important;
+    filter: drop-shadow(0px 2px 5px #e26460);
+}
+
+.rock-progress {
+    filter: drop-shadow(0px 2px 5px #c9bc8a);
+    background-color: #c9bc8a !important;
+}
+
+.steel-progress {
+    filter: drop-shadow(0px 2px 5px #5795a3);
+    background-color: #5795a3 !important;
+}
+
+.water-progress{
+    filter: drop-shadow(0px 2px 5px #539ddf);
+    background-color: #539ddf !important;
+}
+
+.bug-progress,
+.dark-progress,
+.dragon-progress,
+.electric-progress,
+.fairy-progress,
+.fighting-progress,
+.fire-progress,
+.flying-progress,
+.ghost-progress,
+.grass-progress,
+.ground-progress,
+.ice-progress,
+.normal-progress,
+.poison-progress,
+.psychic-progress,
+.rock-progress,
+.steel-progress,
+.water-progress {
+    transition: width 1s ease-in-out;
+}
