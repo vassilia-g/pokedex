@@ -112,3 +112,43 @@
 .col-6-stats {
     margin-bottom: 10px;
 }
+
+.evo-chain {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.evo-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.evo-stage img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 8px;
+    filter: drop-shadow(3px 6px 5px rgba(0,0,0,0.4)) !important;
+}
+
+.evo-stage p {
+    margin: 0;
+    margin-top: 4px;
+    font-size: 1rem;
+    text-align: center;
+    font-weight: 400;
+}
+
+.evo-arrow {
+    font-size: 2rem;
+    margin: 0 8px;
+    user-select: none;
+}
+
+.modal {
+    --bs-modal-width: 670px !important;
+}

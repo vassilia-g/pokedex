@@ -9,6 +9,7 @@ header {
     position: sticky !important;
     top: 0;
     z-index: 1;
+    filter: drop-shadow(0px 2px 14px #3d3d3d);
 }
 
 footer {
@@ -19,20 +20,23 @@ footer {
 }
 
 input {
-    border: none;
-    width: 60%;
+    border: 2px solid #ccc !important;
     border-radius: 25px;
+    width: 60%;
     height: 40px;
     padding-left: 16px;
 }
 
 .input {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    flex-direction: column;
+    align-content: flex-end;
 }
 
 input:focus {
-    border-color: #e26460;
+    border: 2px solid #3a56c5 !important;
+    outline: none;
 }
 
 #content {

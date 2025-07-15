@@ -1,6 +1,6 @@
 let pokemonList = [];
 let currentOffset = 0;
-const limit = 9;
+const limit = 20;
 
 async function onloadFunc() {
     await loadData(currentOffset);
@@ -181,7 +181,7 @@ function pokemonModalTemplate(pokemon) {
                         </div>
 
                         <div class="container tab-pane fade" id="contact-tab-pane-${pokemon.id}" role="tabpanel" aria-labelledby="contact-tab-${pokemon.id}" tabindex="0">   
-                            Evo Chain content here
+                            <div id="evo-chain-${pokemon.id}">Loading evolution chain...</div>
                         </div>
                     </div>
                 </div>
@@ -252,3 +252,46 @@ function progressBarsTemplate(pokemon) {
         </div>
     `).join('');
 }
+
+async function evoChainTemplate(pokemon) {
+    let speciesResponse = await fetch(pokemon.species.url);
+    let speciesElement = await speciesResponse.json();
+    let evoChainResponse = await fetch(speciesElement.evolution_chain.url);
+    let evoChainElement = await evoChainResponse.json();
+    let chainElement = evoChainElement.chain, evoNames = [];
+
+    while (chainElement) {
+        evoNames.push(chainElement.species.name);
+        chainElement = chainElement.evolves_to[0];
+    }
+
+    let evoChainHtml = `<div class="evo-chain">`;
+
+    for (let i = 0; i < evoNames.length; i++) {
+        const evoResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${evoNames[i]}`);
+        const evoElement = await evoResponse.json();
+        evoChainHtml += `<div class="evo-stage">
+                        <img src="${evoElement.sprites.other['official-artwork'].front_default}" alt="${evoNames[i]}">
+                        <p>${evoNames[i]}</p>
+                    </div>`;
+        if (i < evoNames.length - 1) evoChainHtml += `<div class="evo-arrow">&#8667;</div>`;
+    }
+
+    evoChainHtml += `</div>`;
+    return evoChainHtml;
+}
+
+async function showEvoChain(pokemon) {
+    const evoChainHTML = await evoChainTemplate(pokemon);
+    document.getElementById(`evo-chain-${pokemon.id}`).innerHTML = evoChainHTML;
+}
+
+document.addEventListener('shown.bs.tab', async function (event) {
+    if (event.target.id.startsWith('contact-tab-')) {
+        const pokemonId = event.target.id.replace('contact-tab-', '');
+        const pokemon = pokemonList.find(p => p.id == pokemonId);
+        if (pokemon) {
+            await showEvoChain(pokemon);
+        }
+    }
+});
