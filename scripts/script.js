@@ -92,6 +92,39 @@ async function searchPokemon() {
     }
 }
 
+async function evoChainTemplate(pokemon) {
+    let speciesResponse = await fetch(pokemon.species.url);
+    let speciesElement = await speciesResponse.json();
+    let evoChainResponse = await fetch(speciesElement.evolution_chain.url);
+    let evoChainElement = await evoChainResponse.json();
+    let chainElement = evoChainElement.chain, evoNames = [];
+
+    while (chainElement) {
+        evoNames.push(chainElement.species.name);
+        chainElement = chainElement.evolves_to[0];
+    }
+
+    let evoChainHtml = `<div class="evo-chain">`;
+
+    for (let i = 0; i < evoNames.length; i++) {
+        const evoResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${evoNames[i]}`);
+        const evoElement = await evoResponse.json();
+        evoChainHtml += `<div class="evo-stage">
+                        <img src="${evoElement.sprites.other['official-artwork'].front_default}" alt="${evoNames[i]}">
+                        <p>${evoNames[i]}</p>
+                    </div>`;
+        if (i < evoNames.length - 1) evoChainHtml += `<div class="evo-arrow">&#8667;</div>`;
+    }
+
+    evoChainHtml += `</div>`;
+    return evoChainHtml;
+}
+
+async function showEvoChain(pokemon) {
+    const evoChainHTML = await evoChainTemplate(pokemon);
+    document.getElementById(`evo-chain-${pokemon.id}`).innerHTML = evoChainHTML;
+}
+
 // TEMPLATES
 
 function mainTemplate(pokemon) {
@@ -253,39 +286,6 @@ function progressBarsTemplate(pokemon) {
     `).join('');
 }
 
-async function evoChainTemplate(pokemon) {
-    let speciesResponse = await fetch(pokemon.species.url);
-    let speciesElement = await speciesResponse.json();
-    let evoChainResponse = await fetch(speciesElement.evolution_chain.url);
-    let evoChainElement = await evoChainResponse.json();
-    let chainElement = evoChainElement.chain, evoNames = [];
-
-    while (chainElement) {
-        evoNames.push(chainElement.species.name);
-        chainElement = chainElement.evolves_to[0];
-    }
-
-    let evoChainHtml = `<div class="evo-chain">`;
-
-    for (let i = 0; i < evoNames.length; i++) {
-        const evoResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${evoNames[i]}`);
-        const evoElement = await evoResponse.json();
-        evoChainHtml += `<div class="evo-stage">
-                        <img src="${evoElement.sprites.other['official-artwork'].front_default}" alt="${evoNames[i]}">
-                        <p>${evoNames[i]}</p>
-                    </div>`;
-        if (i < evoNames.length - 1) evoChainHtml += `<div class="evo-arrow">&#8667;</div>`;
-    }
-
-    evoChainHtml += `</div>`;
-    return evoChainHtml;
-}
-
-async function showEvoChain(pokemon) {
-    const evoChainHTML = await evoChainTemplate(pokemon);
-    document.getElementById(`evo-chain-${pokemon.id}`).innerHTML = evoChainHTML;
-}
-
 document.addEventListener('shown.bs.tab', async function (event) {
     if (event.target.id.startsWith('contact-tab-')) {
         const pokemonId = event.target.id.replace('contact-tab-', '');
@@ -294,4 +294,14 @@ document.addEventListener('shown.bs.tab', async function (event) {
             await showEvoChain(pokemon);
         }
     }
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+        const loadingScreen = document.getElementById("loading-screen");
+        loadingScreen.style.animation = "fadeOut 1s forwards";
+        setTimeout(() => {
+            loadingScreen.style.display = "none";
+        }, 1000);
+    }, 2000);
 });
