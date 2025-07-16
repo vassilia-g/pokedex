@@ -41,9 +41,18 @@ function activatePopovers() {
 }
 
 async function loadingButton() {
+    const loadingElement = document.getElementById('loading-screen-main-content');
+    if (loadingElement) {
+        loadingElement.classList.remove('hidden');
+    }
+
     currentOffset += limit;
     await loadData(currentOffset);
     renderPokemonList();
+
+    if (loadingElement) {
+        loadingElement.classList.add('hidden');
+    }
 }
 
 function renderAllLoadedPokemon() {
@@ -61,20 +70,21 @@ async function searchPokemon() {
     const input = document.getElementById('searchInput').value.trim().toLowerCase();
     let contentElement = document.getElementById('content');
     let loadingButtonElement = document.getElementById('loading-button');
+    let loadingElement = document.getElementById('loading-screen-main-content');
+
+    if (loadingElement) loadingElement.classList.remove('hidden');
 
     if (input === '') {
         contentElement.innerHTML = '';
         renderAllLoadedPokemon();
-
-        if (loadingButtonElement) {
-            loadingButtonElement.classList.remove('hidden');
-        }
+        if (loadingButtonElement) loadingButtonElement.classList.remove('hidden');
+        if (loadingElement) loadingElement.classList.add('hidden');
         return;
     }
 
-    if (input.length < 3) return;
-    let html = '';
+    if (input.length < 1) return;    
 
+    let html = '';
     let filteredPokemonList = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(input));
     filteredPokemonList.forEach(pokemon => {
         html += mainTemplate(pokemon);
@@ -85,11 +95,10 @@ async function searchPokemon() {
     }
 
     contentElement.innerHTML = html;
-    activatePopovers()
+    activatePopovers();
 
-    if (loadingButtonElement) {
-        loadingButtonElement.classList.add('hidden');
-    }
+    if (loadingButtonElement) loadingButtonElement.classList.add('hidden');
+    if (loadingElement) loadingElement.classList.add('hidden');
 }
 
 async function evoChainTemplate(pokemon) {
@@ -124,6 +133,24 @@ async function showEvoChain(pokemon) {
     const evoChainHTML = await evoChainTemplate(pokemon);
     document.getElementById(`evo-chain-${pokemon.id}`).innerHTML = evoChainHTML;
 }
+
+function swipeImage(direction) {
+    let currentIndex = parseInt(modalImageElement.getAttribute("index"));
+    let total = images.length;
+
+    if (direction === "left") {
+        currentIndex = (currentIndex - 1 + total) % total;
+    } else if (direction === "right") {
+        currentIndex = (currentIndex + 1) % total;
+    }
+
+    let newImage = images[currentIndex];
+    modalImageElement.setAttribute('src', 'img/' + newImage);
+    modalImageElement.setAttribute('index', currentIndex);
+    let imageCountElement = document.getElementById('imageCount');
+    imageCountElement.innerText = `Bild ${currentIndex + 1} von ${total}`;
+}
+
 
 // TEMPLATES
 

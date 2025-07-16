@@ -17,6 +17,17 @@ footer {
     padding: 10px;
     margin-top: 20px;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+footer h1 {
+    display: flex;
+    justify-content: center;
+    padding: 35px;
+    font-size: 20px;
 }
 
 input {
@@ -33,45 +44,11 @@ input:focus {
     outline: none;
 }
 
-.input {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-content: flex-end;
-}
-
 #content {
     display: grid;
     gap: 3rem;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     justify-items: center;
-}
-
-.title {
-    color: white !important;
-    text-align: center;
-    font-size: 17px;
-}
-
-.card {
-    border-radius: 10px !important;
-    transition: all 0.3s ease !important;
-}
-
-.card:hover {
-    cursor: pointer;
-    transform: scale(1.01);
-    transition: all 1.10s ease;
-}
-
-.card-body img {
-    transition: all 0.3s ease !important;
-}
-
-.card-body img:hover {
-    cursor: pointer;
-    transform: scale(1.10);
-    transition: all 0.3s ease;
 }
 
 #loading-button {
@@ -98,24 +75,9 @@ input:focus {
 
 .loading-button {
     margin-top: 50px;
+    margin-bottom: 50px;
     display: flex;
     justify-content: center;
-}
-
-.header-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-}
-
-.header-section img {
-    width: 200px;
-    height: 70px;
-}
-
-.hidden {
-    display: none;
 }
 
 @keyframes rotatePokeball {
@@ -163,5 +125,73 @@ input:focus {
 .dots::after {
   content: "";
   animation: dotsAnimation 1.5s steps(4, end) infinite;
+}
+
+#loading-screen-main-content {
+    height:100vh;
+    width:100vw;
+    position:fixed;
+    z-index:9999;
+    top:0;
+    left:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+#loading-screen-main-content img {
+    animation: rotatePokeball 1.2s linear infinite;
+    filter: drop-shadow(0px 0px 10px #ffffff);
+}
+
+.input {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-content: flex-end;
+}
+
+.title {
+    color: white !important;
+    text-align: center;
+    font-size: 17px;
+}
+
+.card {
+    border-radius: 10px !important;
+    transition: all 0.3s ease !important;
+}
+
+.card:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+    transition: all 1.10s ease;
+}
+
+.card-body img {
+    transition: all 0.3s ease !important;
+}
+
+.card-body img:hover {
+    cursor: pointer;
+    transform: scale(1.10);
+    transition: all 0.3s ease;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.header-section img {
+    width: 200px;
+    height: 70px;
+}
+
+.hidden {
+    display: none !important;
 }
 
