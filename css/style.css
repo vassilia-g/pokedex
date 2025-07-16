@@ -28,7 +28,8 @@ input {
 }
 
 input:focus {
-    border: 2px solid #3a56c5 !important;
+    border: 2px solid #e7c635 !important;
+    filter: drop-shadow(0 0 3px #e7c635) !important;
     outline: none;
 }
 
