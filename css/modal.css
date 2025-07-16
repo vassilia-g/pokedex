@@ -152,3 +152,16 @@
 .modal {
     --bs-modal-width: 670px !important;
 }
+
+.modal-arrow {
+    background: none;
+    border: none;
+    font-size: 5rem;
+    color: #e7c635;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.modal-arrow:disabled {
+    color: #aaa;
+    cursor: not-allowed;
+}

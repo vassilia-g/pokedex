@@ -191,6 +191,20 @@ input:focus {
     height: 70px;
 }
 
+.no-pokemon-found {
+    height: 100vh !important;
+    align-content: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 20px;
+}
+
+.no-pokemon-found img {
+    filter: drop-shadow(3px 6px 5px rgba(0,0,0,0.4)) !important;
+}
+
 .hidden {
     display: none !important;
 }

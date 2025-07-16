@@ -82,7 +82,8 @@ async function searchPokemon() {
         return;
     }
 
-    if (input.length < 1) return;    
+    if (input.length < 3) return;
+
 
     let html = '';
     let filteredPokemonList = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(input));
@@ -91,7 +92,7 @@ async function searchPokemon() {
     });
 
     if (html == '') {
-        html += '<p>No Pokémon found</p>';
+        html += ' <div class="no-pokemon-found"><img src="imgs/sad-pokemon.png"><p style="color: white !important;">No Pokémon found</p></div>';
     }
 
     contentElement.innerHTML = html;
@@ -150,7 +151,6 @@ function swipeImage(direction) {
     let imageCountElement = document.getElementById('imageCount');
     imageCountElement.innerText = `Bild ${currentIndex + 1} von ${total}`;
 }
-
 
 // TEMPLATES
 
