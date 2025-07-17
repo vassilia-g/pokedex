@@ -21,17 +21,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="scripts/script.js"></script>
+    <script src="scripts/templates/mainTemplate.js"></script>
+    <script src="scripts/templates/pokemonModalTemplate.js"></script>
+    <script src="scripts/templates/evoChainTemplate.js"></script>
+    <script src="scripts/templates/pokemonIconTemplate.js"></script>
+    <script src="scripts/templates/pokemonStatsTemplate.js"></script>
+    <script src="scripts/templates/progressBarTemplate.js"></script>
 </head>
 <body onload="onloadFunc()">
-    <div id="loading-screen">
-        <img src="imgs/pokeball.png" alt="Pokeball" style="width:100px;height:100px;">
-        <p style="margin-top:20px;font-size:2rem;font-family:sans-serif;letter-spacing:2px;">Booting Pokedex<span class="dots"></span></p>
-    </div>
-
-    <div id="loading-screen-main-content" class="hidden">
-        <img src="imgs/pokeball.png" alt="Pokeball" style="width:100px;height:100px;">
-    </div>
-
     <header>
         <div class="header-section container">
             <img src="imgs/pokemon.png" alt="pokemon logo">
@@ -42,6 +39,11 @@
     </header>
 
     <div id="content" class="container"></div>
+
+    <div id="loading-screen" class="d-none">
+        <img src="imgs/pokeball.png" alt="Pokeball" style="width:100px;height:100px;">
+    </div>
+
     <div class="loading-button">
         <button id="loading-button" onclick="loadingButton()">Load more</button>
     </div>

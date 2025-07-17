@@ -8,6 +8,7 @@ async function onloadFunc() {
 }
 
 async function loadData(offset) {
+    showLoadingScreen();
     let url = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
     let response = await fetch(url);
     let responseToJson = await response.json();
@@ -30,7 +31,8 @@ function renderPokemonList() {
     });
 
     contentElement.innerHTML += html;
-    activatePopovers()
+    activatePopovers();
+    hideLoadingScreen();
 }
 
 function activatePopovers() {
@@ -41,49 +43,37 @@ function activatePopovers() {
 }
 
 async function loadingButton() {
-    const loadingElement = document.getElementById('loading-screen-main-content');
-    if (loadingElement) {
-        loadingElement.classList.remove('hidden');
-    }
-
     currentOffset += limit;
     await loadData(currentOffset);
     renderPokemonList();
-
-    if (loadingElement) {
-        loadingElement.classList.add('hidden');
-    }
 }
 
-function renderAllLoadedPokemon() {
-  const contentElement = document.getElementById('content');
-  contentElement.innerHTML = '';
+async function renderAllLoadedPokemon() {
+    const contentElement = document.getElementById('content');
+    contentElement.innerHTML = '';
+    showLoadingScreen();
+    await new Promise(resolve => setTimeout(resolve, 100));
 
-  pokemonList.forEach(pokemon => {
-    contentElement.innerHTML += mainTemplate(pokemon);
-  });
+    pokemonList.forEach(pokemon => {
+        contentElement.innerHTML += mainTemplate(pokemon);
+    });
 
-  activatePopovers();
+    activatePopovers();
+    hideLoadingScreen();
 }
 
 async function searchPokemon() {
     const input = document.getElementById('searchInput').value.trim().toLowerCase();
     let contentElement = document.getElementById('content');
     let loadingButtonElement = document.getElementById('loading-button');
-    let loadingElement = document.getElementById('loading-screen-main-content');
-
-    if (loadingElement) loadingElement.classList.remove('hidden');
 
     if (input === '') {
         contentElement.innerHTML = '';
         renderAllLoadedPokemon();
-        if (loadingButtonElement) loadingButtonElement.classList.remove('hidden');
-        if (loadingElement) loadingElement.classList.add('hidden');
         return;
     }
 
     if (input.length < 3) return;
-
 
     let html = '';
     let filteredPokemonList = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(input));
@@ -99,35 +89,6 @@ async function searchPokemon() {
     activatePopovers();
 
     if (loadingButtonElement) loadingButtonElement.classList.add('hidden');
-    if (loadingElement) loadingElement.classList.add('hidden');
-}
-
-async function evoChainTemplate(pokemon) {
-    let speciesResponse = await fetch(pokemon.species.url);
-    let speciesElement = await speciesResponse.json();
-    let evoChainResponse = await fetch(speciesElement.evolution_chain.url);
-    let evoChainElement = await evoChainResponse.json();
-    let chainElement = evoChainElement.chain, evoNames = [];
-
-    while (chainElement) {
-        evoNames.push(chainElement.species.name);
-        chainElement = chainElement.evolves_to[0];
-    }
-
-    let evoChainHtml = `<div class="evo-chain">`;
-
-    for (let i = 0; i < evoNames.length; i++) {
-        const evoResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${evoNames[i]}`);
-        const evoElement = await evoResponse.json();
-        evoChainHtml += `<div class="evo-stage">
-                        <img src="${evoElement.sprites.other['official-artwork'].front_default}" alt="${evoNames[i]}">
-                        <p>${evoNames[i]}</p>
-                    </div>`;
-        if (i < evoNames.length - 1) evoChainHtml += `<div class="evo-arrow">&#8667;</div>`;
-    }
-
-    evoChainHtml += `</div>`;
-    return evoChainHtml;
 }
 
 async function showEvoChain(pokemon) {
@@ -152,166 +113,21 @@ function swipeImage(direction) {
     imageCountElement.innerText = `Bild ${currentIndex + 1} von ${total}`;
 }
 
-// TEMPLATES
-
-function mainTemplate(pokemon) {
-    let typesHTML = '';
-    let mainType = pokemon.types[0].type.name;
-    let modalId = `pokemonModal-${pokemon.id}`;
-
-    pokemon.types.forEach(typeInfo => {
-        typesHTML += pokemonIconTemplate(typeInfo);
-    });
-
-    let pokemonsModal = pokemonModalTemplate(pokemon);
-
-    return `
-        <div class="card pockemon-card ${mainType}">
-            <div class="card-body">
-                <h5 class="card-title title">#${pokemon.id.toString().padStart(4, '0')} ${pokemon.name}</h5>
-                <hr>
-                <img 
-                    type="button" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#${modalId}" 
-                    src="${pokemon.sprites.other["official-artwork"].front_default}" 
-                    class="card-img-top pokemon-artwork"
-                    alt="${pokemon.name}"
-                >
-                <hr>
-                <div class="pokemon-types">
-                    ${typesHTML.trim()}
-                </div>
-            </div>
-        </div>
-        ${pokemonsModal}
-    `;
+function showLoadingScreen() {
+    const loadingScreen = document.getElementById("loading-screen");
+    const loadingButton = document.getElementById("loading-button");
+    loadingButton.classList.add("hidden");
+    loadingScreen.classList.remove("d-none");
 }
 
-function pokemonIconTemplate(typeInfo) {
-    return `
-        <img 
-            class="${typeInfo.type.name}-type" 
-            src="imgs/icons/${typeInfo.type.name}.svg" 
-            data-bs-toggle="popover" 
-            data-bs-trigger="hover" 
-            data-bs-placement="bottom" 
-            data-bs-html="true"
-            data-bs-content="<span class='${typeInfo.type.name}-text'>${typeInfo.type.name}</span>"
-    /> `;
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById("loading-screen");
+    const loadingButton = document.getElementById("loading-button");
+    loadingButton.classList.remove("hidden");
+    loadingScreen.classList.add("d-none");
 }
 
-function pokemonModalTemplate(pokemon) {
-    let mainType = pokemon.types[0].type.name;
-    let modalId = `pokemonModal-${pokemon.id}`;
-
-    return `
-    <div class="modal fade" id="${modalId}" tabindex="-1" aria-labelledby="modalLabel-${pokemon.id}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalLabel-${pokemon.id}">#${pokemon.id.toString().padStart(4, '0')} ${pokemon.name}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body ${mainType}">
-                    <div class="pokemon-modal-img">
-                        <img src="${pokemon.sprites.other["official-artwork"].front_default}" class="img-fluid pokemon-img-fluid pokemon-artwork" alt="${pokemon.name}">
-                    </div>
-                    <div class="pokemon-types-modal">
-                        ${pokemon.types.map(typeInfo => pokemonIconTemplate(typeInfo)).join('')}
-                    </div>
-                    <ul class="nav nav-tabs" id="myTab-${pokemon.id}" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active nav-link-button" id="home-tab-${pokemon.id}" data-bs-toggle="tab" data-bs-target="#home-tab-pane-${pokemon.id}" type="button" role="tab" aria-controls="home-tab-pane-${pokemon.id}" aria-selected="true">Main</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link nav-link-button" id="profile-tab-${pokemon.id}" data-bs-toggle="tab" data-bs-target="#profile-tab-pane-${pokemon.id}" type="button" role="tab" aria-controls="profile-tab-pane-${pokemon.id}" aria-selected="false">Stats</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link nav-link-button" id="contact-tab-${pokemon.id}" data-bs-toggle="tab" data-bs-target="#contact-tab-pane-${pokemon.id}" type="button" role="tab" aria-controls="contact-tab-pane-${pokemon.id}" aria-selected="false">Evo Chain</button>
-                        </li>
-                    </ul>
-                    <div class="tab-content pokemon-tab-content" id="myTabContent-${pokemon.id}">
-                        <div class="container tab-pane fade show active" id="home-tab-pane-${pokemon.id}" role="tabpanel" aria-labelledby="home-tab-${pokemon.id}" tabindex="0">
-                            ${pokemonStatsTemplate(pokemon)}
-                        </div>
-
-                        <div class="container tab-pane fade" id="profile-tab-pane-${pokemon.id}" role="tabpanel" aria-labelledby="profile-tab-${pokemon.id}" tabindex="0">   
-                            ${progressBarsTemplate(pokemon, mainType)}
-                        </div>
-
-                        <div class="container tab-pane fade" id="contact-tab-pane-${pokemon.id}" role="tabpanel" aria-labelledby="contact-tab-${pokemon.id}" tabindex="0">   
-                            <div id="evo-chain-${pokemon.id}">Loading evolution chain...</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-`;
-}
-
-function pokemonStatsTemplate(pokemon) {
-    let mainType = pokemon.types[0].type.name;
-    return `
-        <div class="row">
-            <div class="col-6 col-6-stats">
-                Base Experience
-            </div>
-            <div class="col-6 col-6-stats">
-                <span class="badge ${mainType}-progress">${pokemon.base_experience}</span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6 col-6-stats">
-                Height
-            </div>
-            <div class="col-6 col-6-stats">
-                <span class="badge ${mainType}-progress">${pokemon.height / 10} m</span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6 col-6-stats">
-                Weight
-            </div>
-            <div class="col-6 col-6-stats">
-                <span class="badge ${mainType}-progress">${pokemon.weight / 10} kg</span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6 col-6-stats">
-                Abilities
-            </div>
-            <div class="col-6 col-6-stats">
-                ${pokemon.abilities.map(ability => `
-                    <span class="badge ${mainType}-progress" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-html="true" data-bs-content="<span class='ability-text'>${ability.ability.name}</span>">
-                        ${ability.ability.name}
-                    </span>
-                `).join(' ')}
-            </div>
-        </div>
-    `;
-}
-
-function progressBarsTemplate(pokemon) {
-    let mainType = pokemon.types[0].type.name;
-
-    return pokemon.stats.map(stat => `
-        <div class="mb-3">
-            <div class="row">
-                <div class="col-6 col-6-modal">
-                    ${stat.stat.name}
-                </div>
-                <div class="col-6">
-                    : ${stat.base_stat} xp
-                </div>
-            </div>    
-            <div class="progress progress-bar-modal" role="progressbar" aria-label="${stat.stat.name}" aria-valuenow="${stat.base_stat}" aria-valuemin="0" aria-valuemax="200">
-                <div class="progress-bar ${mainType}-progress" style="width: ${stat.base_stat}%"></div>
-            </div>
-        </div>
-    `).join('');
-}
+// LISTENERS
 
 document.addEventListener('shown.bs.tab', async function (event) {
     if (event.target.id.startsWith('contact-tab-')) {
@@ -321,14 +137,4 @@ document.addEventListener('shown.bs.tab', async function (event) {
             await showEvoChain(pokemon);
         }
     }
-});
-
-window.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-        const loadingScreen = document.getElementById("loading-screen");
-        loadingScreen.style.animation = "fadeOut 1s forwards";
-        setTimeout(() => {
-            loadingScreen.style.display = "none";
-        }, 1000);
-    }, 2000);
 });
