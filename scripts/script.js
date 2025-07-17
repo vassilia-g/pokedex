@@ -19,6 +19,8 @@ async function loadData(offset) {
         let details = await detailsResponse.json();
         pokemonList.push(details);
     }
+
+    pokemonList.sort((a, b) => a.id - b.id);
 }
 
 function renderPokemonList() {
@@ -126,6 +128,71 @@ function hideLoadingScreen() {
     loadingButton.classList.remove("hidden");
     loadingScreen.classList.add("d-none");
 }
+
+function showPrevPokemon(currentId) {
+    const sorted = [...pokemonList].sort((a, b) => a.id - b.id);
+    const currentIndex = sorted.findIndex(pokemon => pokemon.id === currentId);
+    if (currentIndex > 0) {
+        const prevPokemon = sorted[currentIndex - 1];
+        openPokemonModal(prevPokemon.id);
+    }
+}
+
+function showNextPokemon(currentId) {
+    const sorted = [...pokemonList].sort((a, b) => a.id - b.id);
+    const currentIndex = sorted.findIndex(pokemon => pokemon.id === currentId);
+    if (currentIndex < sorted.length - 1) {
+        const nextPokemon = sorted[currentIndex + 1];
+        openPokemonModal(nextPokemon.id);
+    }
+}
+
+function openPokemonModal(pokemonId) {
+    // 1. Finde das aktuell offene Modal
+    const openModals = document.querySelectorAll('.modal.show');
+
+    if (openModals.length > 0) {
+        const currentModal = bootstrap.Modal.getInstance(openModals[0]);
+
+        // 2. Event listener hinzufügen – erst wenn geschlossen, dann das neue öffnen
+        openModals[0].addEventListener('hidden.bs.modal', function handleClosed() {
+            // Entferne den Event Listener, damit es nicht doppelt feuert
+            openModals[0].removeEventListener('hidden.bs.modal', handleClosed);
+
+            // Dann öffne das neue Modal
+            const modalElement = document.getElementById(`pokemonModal-${pokemonId}`);
+            if (modalElement) {
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            }
+        });
+
+        // Modal schließen
+        currentModal.hide();
+    } else {
+        // Falls kein Modal offen war
+        const modalElement = document.getElementById(`pokemonModal-${pokemonId}`);
+        if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
+    }
+}
+
+// function openPokemonModal(pokemonId) {
+//     // Schließe alle offenen Modals
+//     document.querySelectorAll('.modal.show').forEach(modal => {
+//         bootstrap.Modal.getInstance(modal).hide();
+//     });
+//     // Öffne das gewünschte Modal
+//     let modalElement = document.getElementById(`pokemonModal-${pokemonId}`);
+//     if (modalElement) {
+//         let modal = new bootstrap.Modal(modalElement);
+//         modal.show();
+//     }
+// }
+
+
 
 // LISTENERS
 

@@ -7,7 +7,9 @@ function pokemonModalTemplate(pokemon) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalLabel-${pokemon.id}">#${pokemon.id.toString().padStart(4, '0')} ${pokemon.name}</h1>
+                    <button type="button" class="btn btn-arrow" onclick="showPrevPokemon(${pokemon.id})">&#8592;</button>
+                    <h1 class="modal-title fs-5" id="modalLabel-${pokemon.id}">#${pokemon.id.toString().padStart(4, '0')} ${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h1>
+                    <button type="button" class="btn btn-arrow" onclick="showNextPokemon(${pokemon.id})">&#8594;</button>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body ${mainType}">
