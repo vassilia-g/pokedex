@@ -98,23 +98,6 @@ async function showEvoChain(pokemon) {
     document.getElementById(`evo-chain-${pokemon.id}`).innerHTML = evoChainHTML;
 }
 
-function swipeImage(direction) {
-    let currentIndex = parseInt(modalImageElement.getAttribute("index"));
-    let total = images.length;
-
-    if (direction === "left") {
-        currentIndex = (currentIndex - 1 + total) % total;
-    } else if (direction === "right") {
-        currentIndex = (currentIndex + 1) % total;
-    }
-
-    let newImage = images[currentIndex];
-    modalImageElement.setAttribute('src', 'img/' + newImage);
-    modalImageElement.setAttribute('index', currentIndex);
-    let imageCountElement = document.getElementById('imageCount');
-    imageCountElement.innerText = `Bild ${currentIndex + 1} von ${total}`;
-}
-
 function showLoadingScreen() {
     const loadingScreen = document.getElementById("loading-screen");
     const loadingButton = document.getElementById("loading-button");

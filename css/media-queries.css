@@ -1,0 +1,42 @@
+
+
+@media (max-width: 630px) {
+    .evo-stage img {
+        width: 100px;
+    }
+}
+
+@media (max-width: 500px) {
+    .evo-stage img {
+        width: 90px;
+        height: 115px;
+    }
+
+    .evo-chain {
+        gap: 10px;
+    }
+
+    .evo-arrow {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .header-section img {
+        width: 140px;
+        height: 53px;
+    }
+
+    .evo-stage img {
+        width: 70px;
+        height: 85px;
+    }
+
+    .evo-chain {
+        gap: 0px;
+    }
+
+    .footer h1 {
+        font-size: 15px;
+    }
+}
