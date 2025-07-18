@@ -165,3 +165,7 @@
     color: #aaa;
     cursor: not-allowed;
 }
+
+.modal {
+    padding: 0 !important;
+}
