@@ -1,6 +1,7 @@
 let pokemonList = [];
+let activePokemonList = [];
 let currentOffset = 0;
-const limit = 20;
+const limit = 40;
 
 async function onloadFunc() {
     await loadData(currentOffset);
@@ -24,6 +25,7 @@ async function loadData(offset) {
 }
 
 function renderPokemonList() {
+    activePokemonList = pokemonList.slice(currentOffset, currentOffset + limit);
     let contentElement = document.getElementById('content');
     let html = '';
 
@@ -45,12 +47,15 @@ function activatePopovers() {
 }
 
 async function loadingButton() {
+    isLoading = true;
     currentOffset += limit;
     await loadData(currentOffset);
     renderPokemonList();
+    isLoading = false;
 }
 
 async function renderAllLoadedPokemon() {
+    activePokemonList = pokemonList;
     const contentElement = document.getElementById('content');
     contentElement.innerHTML = '';
     showLoadingScreen();
@@ -77,14 +82,20 @@ async function searchPokemon() {
 
     if (input.length < 3) return;
 
-    let html = '';
     let filteredPokemonList = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(input));
+    activePokemonList = filteredPokemonList;
+
+    let html = '';
     filteredPokemonList.forEach(pokemon => {
         html += mainTemplate(pokemon);
     });
 
     if (html == '') {
-        html += ' <div class="no-pokemon-found"><img src="imgs/sad-pokemon.png"><p style="color: white !important;">No Pokémon found</p></div>';
+        html += `
+            <div class="no-pokemon-found">
+                <img src="imgs/sad-pokemon.png">
+                <p style="color: white !important;">No Pokémon found</p>
+            </div>`;
     }
 
     contentElement.innerHTML = html;
@@ -121,5 +132,31 @@ document.addEventListener('shown.bs.tab', async function (event) {
         if (pokemon) {
             await showEvoChain(pokemon);
         }
+    }
+});
+
+document.addEventListener('show.bs.modal', function (event) {
+    if (isLoading) {
+        event.preventDefault();
+    }
+});
+
+document.addEventListener('shown.bs.modal', function (event) {
+    const modal = event.target;
+    const pokemonId = parseInt(modal.id.split('-')[1]);
+
+    const index = activePokemonList.findIndex(p => p.id === pokemonId);
+    const leftArrow = document.getElementById(`left-arrow-${pokemonId}`);
+    const rightArrow = document.getElementById(`right-arrow-${pokemonId}`);
+
+    if (leftArrow) leftArrow.classList.remove('d-none');
+    if (rightArrow) rightArrow.classList.remove('d-none');
+
+    if (index === 0 && leftArrow) {
+        leftArrow.classList.add('d-none');
+    }
+
+    if (index === activePokemonList.length - 1 && rightArrow) {
+        rightArrow.classList.add('d-none');
     }
 });

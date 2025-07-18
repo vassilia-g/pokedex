@@ -169,3 +169,16 @@
 .modal {
     padding: 0 !important;
 }
+
+.pokemon-modal-img button {
+    font-size: 20px;
+    color: #3c3c3c;
+}
+
+.pokemon-modal-img button:active {
+    border: none !important;
+}
+
+.pokemon-modal-img button:focus {
+    border: none !important;
+}
