@@ -1,6 +1,7 @@
 let pokemonList = [];
 let activePokemonList = [];
 let currentOffset = 0;
+let isLoading = false;
 const limit = 40;
 
 async function onloadFunc() {
